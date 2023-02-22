@@ -12,7 +12,9 @@
 #include "confidential.h"
 
 
+using std::getline;
 using std::ofstream;
+using std::ifstream;
 using std::ios;
 using std::string;
 using std::vector;
@@ -149,9 +151,26 @@ public:
         }
     }
 
-//    string lerArquivo(const string &arquivo){
+    string lerArquivo(const string &arquivo){
+        try {
+            string linha, dados;
+            ifstream arquivoEntrada;
+            arquivoEntrada.open(arquivo, ios::in);
+            if(!arquivoEntrada){
+                throw (string("O arquivo" + arquivo + " não pode ser abreto."));
+            }
+            while (getline(arquivoEntrada, linha)) {
+                dados += linha;
+            }
+            arquivoEntrada.close();
+            return dados;
+        }
+        catch (const exception &e) {
+            throw;
+        }
+    }
 
-//    }
+
 };
 
 #endif
