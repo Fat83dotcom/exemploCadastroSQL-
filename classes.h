@@ -153,15 +153,13 @@ public:
 
     string lerArquivo(const string &arquivo){
         try {
-            string linha, dados;
+            string dados;
             ifstream arquivoEntrada;
             arquivoEntrada.open(arquivo, ios::in);
             if(!arquivoEntrada){
                 throw (string("O arquivo" + arquivo + " não pode ser abreto."));
             }
-            while (getline(arquivoEntrada, linha)) {
-                dados += linha;
-            }
+            arquivoEntrada >> dados;
             arquivoEntrada.close();
             return dados;
         }
