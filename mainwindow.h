@@ -3,7 +3,7 @@
 
 #include <string>
 #include "classes.h"
-#include "confidencial.h"
+#include "confidential.h"
 #include <QMainWindow>
 using std::string;
 
