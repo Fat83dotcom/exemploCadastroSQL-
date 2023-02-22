@@ -4,11 +4,16 @@
 #include <string>
 #include <pqxx/pqxx>
 #include <pqxx/transaction_base>
-#include <iostream>
 #include <vector>
-#include "confidencial.h"
+#include <iostream>
+#include <fstream>
+#include <cstdlib>
+#include <stdexcept>
+#include "confidential.h"
 
 
+using std::ofstream;
+using std::ios;
 using std::string;
 using std::vector;
 using std::exception;
@@ -126,11 +131,27 @@ public:
 };
 
 class ArquivoBD{
-private:
-    FILE
+
 public:
     ArquivoBD() {}
+    void gravarArquivo(const string &arquivo, string dados){
+        try {
+            ofstream arquivoSaida;
+            arquivoSaida.open(arquivo, ios::out);
+            if(!arquivoSaida){
+                throw (string("O Arquivo " + arquivo + " não pode ser aberto."));
+            }
+            arquivoSaida << dados;
+            arquivoSaida.close();
+        }
+        catch (const exception &e) {
+            throw;
+        }
+    }
 
+//    string lerArquivo(const string &arquivo){
+
+//    }
 };
 
 #endif
