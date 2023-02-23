@@ -312,6 +312,13 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayout_2">
+         <item row="5" column="0" colspan="2">
+          <widget class="QPushButton" name="alterarEntradaBD">
+           <property name="text">
+            <string>Alterar</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0" colspan="2">
           <widget class="QLabel" name="label_15">
            <property name="minimumSize">
@@ -327,22 +334,12 @@
             </size>
            </property>
            <property name="text">
-            <string>TextLabel</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;* Após entrar uma vez com os dados fornecidos pelo Adm do&lt;/p&gt;&lt;p&gt; banco de dados, não é necessário entrar novamente.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>
            </property>
           </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_11">
-           <property name="text">
-            <string>Usuário</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit"/>
          </item>
          <item row="2" column="0">
           <widget class="QLabel" name="label_12">
@@ -352,17 +349,17 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="lineEdit_2"/>
+          <widget class="QLineEdit" name="entradaHostBD"/>
          </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_13">
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="entradaPortaBD"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_11">
            <property name="text">
-            <string>Senha</string>
+            <string>Usuário</string>
            </property>
           </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit_3"/>
          </item>
          <item row="4" column="0">
           <widget class="QLabel" name="label_14">
@@ -371,13 +368,32 @@
            </property>
           </widget>
          </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="lineEdit_4"/>
+         <item row="3" column="1">
+          <widget class="QLineEdit" name="entradaSenhaBD"/>
          </item>
-         <item row="5" column="0" colspan="2">
-          <widget class="QPushButton" name="pushButton">
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_13">
            <property name="text">
-            <string>Alterar</string>
+            <string>Senha</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="entradaUsuarioBD"/>
+         </item>
+         <item row="6" column="0" colspan="2">
+          <widget class="QLabel" name="statusTransacao">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
           </widget>
          </item>

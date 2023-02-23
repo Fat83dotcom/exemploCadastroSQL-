@@ -6,7 +6,9 @@
 
 using std::exception;
 
-ConectBD c;
+
+ArquivoBD a;
+ConectBD c(a.montarEntradaBD());
 TabelaTeste tbT;
 
 
@@ -14,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow){
     ui->setupUi(this);
+
     c.inciarSQLTabelaTeste(tbT);
 }
 
@@ -73,5 +76,37 @@ void MainWindow::on_btnConsultaIdade_clicked(){
 
 void MainWindow::on_btnDeletar_clicked(){
 
+}
+
+void MainWindow::on_alterarEntradaBD_clicked(){
+    try {
+        ArquivoBD a;
+        string usuarioBD, hostBD, senhaBd, portaBD;
+        usuarioBD = ui->entradaUsuarioBD->text().toStdString();
+        hostBD = ui->entradaHostBD->text().toStdString();
+        senhaBd = ui->entradaSenhaBD->text().toStdString();
+        portaBD = ui->entradaPortaBD->text().toStdString();
+        if(usuarioBD.empty() || hostBD.empty() || senhaBd.empty() || portaBD.empty()){
+            ui->statusTransacao->setText("Só é possivel definir com as 4 entradas preenchidas.");
+            ui->entradaHostBD->clear();
+            ui->entradaUsuarioBD->clear();
+            ui->entradaSenhaBD->clear();
+            ui->entradaPortaBD->clear();
+        }
+        else{
+            a.gravarArquivo(a.arquivoUsuario, usuarioBD);
+            a.gravarArquivo(a.arquivoHost, hostBD);
+            a.gravarArquivo(a.arquivoSenha, senhaBd);
+            a.gravarArquivo(a.arquivoPorta, portaBD);
+            ui->entradaHostBD->clear();
+            ui->entradaUsuarioBD->clear();
+            ui->entradaSenhaBD->clear();
+            ui->entradaPortaBD->clear();
+            ui->statusTransacao->setText("Dados salvos com sucesso!");
+        }
+
+    }  catch (const exception &e) {
+        throw;
+    }
 }
 

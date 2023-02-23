@@ -64,13 +64,77 @@ typedef struct TabelaCliente{
     string endereco_cidade;
 }TabelaCliente;
 
+//class ArquivoBD();
+
+class ArquivoBD{
+
+public:
+    const string arquivoUsuario = ".usuarioBD";
+    const string arquivoSenha = ".senhaBD";
+    const string arquivoHost = ".hostBD";
+    const string arquivoPorta = ".portaBD";
+//    ArquivoBD() {}
+
+    void gravarArquivo(const string &arquivo, string dados){
+        try {
+            ofstream arquivoSaida;
+            arquivoSaida.open(arquivo, ios::out);
+            if(!arquivoSaida){
+                throw (string("O Arquivo " + arquivo + " não pode ser aberto."));
+            }
+            arquivoSaida << dados;
+            arquivoSaida.close();
+        }
+        catch (const exception &e) {
+            throw;
+        }
+    }
+
+    string lerArquivo(const string &arquivo){
+        try {
+            string dados;
+            ifstream arquivoEntrada;
+            arquivoEntrada.open(arquivo, ios::in);
+            if(!arquivoEntrada){
+                throw (string("O arquivo" + arquivo + " não pode ser abreto."));
+            }
+            arquivoEntrada >> dados;
+            arquivoEntrada.close();
+            return dados;
+        }
+        catch (const exception &e) {
+            throw;
+        }
+    }
+
+    string montarEntradaBD(){
+        try {
+            string usuario, host, senha, porta, entradaBD;
+            usuario = this->lerArquivo(this->arquivoUsuario);
+            host = this->lerArquivo(this->arquivoHost);
+            senha = this->lerArquivo(this->arquivoSenha);
+            porta = this->lerArquivo(this->arquivoPorta);
+            entradaBD = "dbname=projeto_cmaismais user= " + usuario +
+                        " password=" + senha + " hostaddr=" + host + " port=" + porta;
+            return entradaBD;
+        }
+        catch (const exception &e) {
+            throw;
+        }
+    }
+};
+
 class ConectBD {
 private:
+    string BD;
     pqxx::connection con;
     TabelaTeste tbTeste;
 
+
 public:
-    ConectBD() : con(DADOSBANCO) {}
+
+    ConectBD(string banco) : con(banco){}
+
     void executarTabelaTeste(ConectBD *c, TabelaTeste *tb_t,
         const string &declaracao, vector<string> v);
 
@@ -130,45 +194,6 @@ public:
             throw ;
         }
     }
-};
-
-class ArquivoBD{
-
-public:
-    ArquivoBD() {}
-    void gravarArquivo(const string &arquivo, string dados){
-        try {
-            ofstream arquivoSaida;
-            arquivoSaida.open(arquivo, ios::out);
-            if(!arquivoSaida){
-                throw (string("O Arquivo " + arquivo + " não pode ser aberto."));
-            }
-            arquivoSaida << dados;
-            arquivoSaida.close();
-        }
-        catch (const exception &e) {
-            throw;
-        }
-    }
-
-    string lerArquivo(const string &arquivo){
-        try {
-            string dados;
-            ifstream arquivoEntrada;
-            arquivoEntrada.open(arquivo, ios::in);
-            if(!arquivoEntrada){
-                throw (string("O arquivo" + arquivo + " não pode ser abreto."));
-            }
-            arquivoEntrada >> dados;
-            arquivoEntrada.close();
-            return dados;
-        }
-        catch (const exception &e) {
-            throw;
-        }
-    }
-
-
 };
 
 #endif
