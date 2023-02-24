@@ -57,7 +57,13 @@ void MainWindow::on_cadastrarDados_clicked(){
 }
 
 void MainWindow::on_btnConsultaAll_clicked(){
-
+    ui->listaReultadoQuery->clear();
+    vector<string> resultado, argumentos;
+    argumentos = {};
+    resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[1], argumentos);
+    for (int i = 0; i < resultado.size() ; i++ ) {
+        ui->listaReultadoQuery->addItem(QString::fromStdString(resultado[i]));
+    }
 }
 
 void MainWindow::on_btnConsultaId_clicked(){

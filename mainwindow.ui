@@ -258,12 +258,18 @@
         </property>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
-          <widget class="QListWidget" name="listWidget">
+          <widget class="QListWidget" name="listaReultadoQuery">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="modelColumn">
+            <number>0</number>
            </property>
           </widget>
          </item>
