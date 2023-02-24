@@ -64,16 +64,10 @@ typedef struct TabelaCliente{
     string endereco_cidade;
 }TabelaCliente;
 
-//class ArquivoBD();
-
 class ArquivoBD{
 
 public:
-    const string arquivoUsuario = ".usuarioBD";
-    const string arquivoSenha = ".senhaBD";
-    const string arquivoHost = ".hostBD";
-    const string arquivoPorta = ".portaBD";
-//    ArquivoBD() {}
+    const string arquivoLogin = ".loginBDPostgreSQL";
 
     void gravarArquivo(const string &arquivo, string dados){
         try {
@@ -92,13 +86,15 @@ public:
 
     string lerArquivo(const string &arquivo){
         try {
-            string dados;
+            string dados, linha;
             ifstream arquivoEntrada;
             arquivoEntrada.open(arquivo, ios::in);
             if(!arquivoEntrada){
-                throw (string("O arquivo" + arquivo + " não pode ser abreto."));
+                throw std::invalid_argument("Arquivo não encontrado\nConfigurar banco de dados.");
             }
-            arquivoEntrada >> dados;
+            while (getline(arquivoEntrada, linha)) {
+                dados += linha;
+            }
             arquivoEntrada.close();
             return dados;
         }
@@ -107,14 +103,9 @@ public:
         }
     }
 
-    string montarEntradaBD(){
+    string montarEntradaBD(string usuario, string host, string senha, string porta){
         try {
-            string usuario, host, senha, porta, entradaBD;
-            usuario = this->lerArquivo(this->arquivoUsuario);
-            host = this->lerArquivo(this->arquivoHost);
-            senha = this->lerArquivo(this->arquivoSenha);
-            porta = this->lerArquivo(this->arquivoPorta);
-            entradaBD = "dbname=projeto_cmaismais user= " + usuario +
+            string entradaBD = "dbname=projeto_cmaismais user=" + usuario +
                         " password=" + senha + " hostaddr=" + host + " port=" + porta;
             return entradaBD;
         }
@@ -126,23 +117,20 @@ public:
 
 class ConectBD {
 private:
-    string BD;
-    pqxx::connection con;
     TabelaTeste tbTeste;
-
+    ArquivoBD a;
 
 public:
-
-    ConectBD(string banco) : con(banco){}
+    ConectBD(){}
 
     void executarTabelaTeste(ConectBD *c, TabelaTeste *tb_t,
         const string &declaracao, vector<string> v);
 
-    void inciarSQLTabelaTeste(TabelaTeste tbTeste){
+    void inciarSQLTabelaTeste(pqxx::connection *c, TabelaTeste tbTeste){
+        /*Carrega as sentenças que serão usadas no pqxx:prepare*/
         try {
-
             for(int i = 0; i < tbTeste.comandosSQL.size(); i++){
-                this->preparaDados(tbTeste.declaracaoPrepare[i], tbTeste.comandosSQL[i]);
+                this->preparaDados(c, tbTeste.declaracaoPrepare[i], tbTeste.comandosSQL[i]);
             }
         }
         catch (const exception &e) {
@@ -150,9 +138,10 @@ public:
         }
     }
 
-    void preparaDados(const string &nomePrepara, const string &sql){
+    void preparaDados(pqxx::connection *con, const string &nomePrepara, const string &sql){
+        /*Vincula uma sentença a sua query SQL*/
         try{
-            this->con.prepare(nomePrepara, sql);
+            con->prepare(nomePrepara, sql);
         }
         catch(const exception& e){
             throw ;
@@ -160,12 +149,16 @@ public:
     }
 
     void executarPrepara(const string &nomeprepara, const vector<string> &args){
+        /*Executa uma query qualquer a partir da sua senteça e valores que serão gravados*/
         try{
-            pqxx::work w(this->con);
+            string login = this->a.lerArquivo(a.arquivoLogin);
+            pqxx::connection con(login);
+            pqxx::work w(con);
             pqxx::params argumentos;
             for (const auto &arg : args){
                 argumentos.append(arg);
             }
+            this->inciarSQLTabelaTeste(&con, tbTeste);
             w.exec_prepared(nomeprepara, argumentos);
             w.commit();
         }
@@ -176,8 +169,10 @@ public:
 
     void imprimirPreparaResult(const string &nomeprepara, const vector<string> &args){
         try{
+            string login = this->a.lerArquivo(a.arquivoLogin);
+            pqxx::connection con(login);
             pqxx::result r;
-            pqxx::work w(this->con);
+            pqxx::work w(con);
             if (args.size() == 0) {
                 r = w.exec_prepared(nomeprepara);
             }
