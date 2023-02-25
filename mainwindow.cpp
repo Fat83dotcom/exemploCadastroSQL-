@@ -44,8 +44,9 @@ void MainWindow::on_cadastrarDados_clicked(){
         if(ok && !nomeStr.empty()){
             vector<string> campos = {nome.toStdString(), idade.toStdString()};
             c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos);
-            ui->cadastroIdade->clear();
             ui->cadastroNome->clear();
+            ui->cadastroNome->setFocus();
+            ui->cadastroIdade->clear();
             ui->ConfimacaoCadastro->setText("Cadastro Realizado com Sucesso.");
         }
         else{
