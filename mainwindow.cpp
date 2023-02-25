@@ -23,10 +23,10 @@ MainWindow::~MainWindow(){
 }
 
 void ConectBD::executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
-    const string &declaracao, vector<string> v){
+    const string &declaracao, vector<string> v, int indicePreparacao){
     try {
         for (auto i : v) tbT->campos.push_back(i.c_str());
-        c->executarPrepara(declaracao, tbT->campos);
+        c->executarPrepara(declaracao, tbT->campos, indicePreparacao);
         tbT->campos.clear();
     }
       catch (const exception &e) {
@@ -43,7 +43,7 @@ void MainWindow::on_cadastrarDados_clicked(){
         string nomeStr = nome.toStdString();
         if(ok && !nomeStr.empty()){
             vector<string> campos = {nome.toStdString(), idade.toStdString()};
-            c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos);
+            c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos, 0);
             ui->cadastroNome->clear();
             ui->cadastroNome->setFocus();
             ui->cadastroIdade->clear();
@@ -74,7 +74,10 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
         tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
         vector<string> itens;
         vector<vector<string>> resultado;
-        resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[indiceDeclaracao], argumentosConsulta);
+        resultado = c.imprimirPreparaResult(
+                    tbT.declaracaoPrepare[indiceDeclaracao],
+                    argumentosConsulta,
+                    indiceDeclaracao);
         if (resultado.size() > 0) {
             for (int i = 0; i < resultado.size() ; i++ ) {
                 QList<QStandardItem *> itensLinhas = {

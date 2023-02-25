@@ -124,15 +124,15 @@ private:
 public:
     ConectBD(){}
 
-    void executarTabelaTeste(ConectBD *c, TabelaTeste *tb_t,
-        const string &declaracao, vector<string> v);
+    void executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
+                             const string &declaracao, vector<string> v, int indicePreparacao);
 
-    void inciarSQLTabelaTeste(pqxx::connection *c, TabelaTeste tbTeste){
-        /*Carrega as sentenças que serão usadas no pqxx:prepare*/
+    void inciarSQLTabelaTeste(pqxx::connection *c, TabelaTeste tbTeste, int indiceDeclaracao){
+        /*Carrega a sentença que será usada no pqxx:prepare da tabela teste*/
         try {
-            for(int i = 0; i < tbTeste.comandosSQL.size(); i++){
-                this->preparaDados(c, tbTeste.declaracaoPrepare[i], tbTeste.comandosSQL[i]);
-            }
+            this->preparaDados(c,
+                               tbTeste.declaracaoPrepare[indiceDeclaracao],
+                               tbTeste.comandosSQL[indiceDeclaracao]);
         }
         catch (const exception &e) {
             throw;
@@ -149,7 +149,7 @@ public:
         }
     }
 
-    void executarPrepara(const string &nomeprepara, const vector<string> &args){
+    void executarPrepara(const string &nomeprepara, const vector<string> &args, int indiceDeclaracao){
         /*Executa uma query qualquer a partir da sua senteça e valores que serão gravados*/
         try{
             string login = this->a.lerArquivo(a.arquivoLogin);
@@ -159,7 +159,7 @@ public:
             for (const auto &arg : args){
                 argumentos.append(arg);
             }
-            this->inciarSQLTabelaTeste(&con, tbTeste);
+            this->inciarSQLTabelaTeste(&con, tbTeste, indiceDeclaracao);
             w.exec_prepared(nomeprepara, argumentos);
             w.commit();
         }
@@ -168,15 +168,17 @@ public:
         }
     }
 
-    vector<vector<string>> imprimirPreparaResult(const string &nomeprepara, const vector<string> &args){
+    vector<vector<string>> imprimirPreparaResult(const string &nomeprepara,
+                                                 const vector<string> &args,
+                                                 int indiceDeclaracao){
         try{
             vector<vector<string>> itens;
             vector<string> colunas;
             string login = this->a.lerArquivo(a.arquivoLogin);
             pqxx::connection con(login);
-            this->inciarSQLTabelaTeste(&con, tbTeste);
             pqxx::result r;
             pqxx::work w(con);
+            this->inciarSQLTabelaTeste(&con, tbTeste, indiceDeclaracao);
             if (args.size() == 0) {
                 r = w.exec_prepared(nomeprepara);
             }
