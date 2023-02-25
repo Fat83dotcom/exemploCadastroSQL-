@@ -98,6 +98,9 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
     }
 }
 
+void MainWindow::on_btnConsultaAll_clicked(){
+    vector<string> argumentosConsulta = {};
+    this->visualizacaoPadraTabela(1, argumentosConsulta);
 }
 
 void MainWindow::on_btnConsultaId_clicked(){
