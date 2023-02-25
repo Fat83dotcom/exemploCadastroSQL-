@@ -40,7 +40,8 @@ void MainWindow::on_cadastrarDados_clicked(){
         QString nome = ui->cadastroNome->text();
         QString idade = ui->cadastroIdade->text();
         idade.toInt(&ok);
-        if(ok){
+        string nomeStr = nome.toStdString();
+        if(ok && !nomeStr.empty()){
             vector<string> campos = {nome.toStdString(), idade.toStdString()};
             c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos);
             ui->cadastroIdade->clear();
