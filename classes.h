@@ -21,7 +21,7 @@ using std::vector;
 using std::exception;
 
 typedef struct TabelaTestes{
-
+    /*Struct responsavel pelo gerenciamento da tabela testes*/
     const string sqlInsertTTeste = "INSERT INTO teste (nome, idade) VALUES($1, $2)";
     const string sqlSelectTTestAll = "SELECT * FROM teste";
     const string sqlSelectTTestId = "SELECT * FROM teste WHERE codigo=$1";
@@ -70,6 +70,7 @@ public:
     const string arquivoLogin = ".loginBDPostgreSQL";
 
     void gravarArquivo(const string &arquivo, string dados){
+        /*Metodo generico para gravação de arquivos*/
         try {
             ofstream arquivoSaida;
             arquivoSaida.open(arquivo, ios::out);
@@ -105,6 +106,7 @@ public:
     }
 
     string montarEntradaBD(string usuario, string host, string senha, string porta){
+        /*Cria a string responsavel pela validação do banco de dados*/
         try {
             string entradaBD = "dbname=projeto_cmaismais user=" + usuario +
                         " password=" + senha + " hostaddr=" + host + " port=" + porta;
