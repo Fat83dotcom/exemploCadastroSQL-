@@ -104,7 +104,28 @@ void MainWindow::on_btnConsultaAll_clicked(){
 }
 
 void MainWindow::on_btnConsultaId_clicked(){
-
+    try {
+        bool ok;
+        QString idConsulta = ui->entraConsultaId->text();
+        string idConsultaStr = idConsulta.toStdString();
+        idConsulta.toInt(&ok);
+        ui->entraConsultaId->setFocus();
+        ui->entraConsultaId->clear();
+        if (ok && !idConsultaStr.empty()) {
+            vector<string> argumentosConsulta = {idConsultaStr};
+            this->visualizacaoPadraTabela(2, argumentosConsulta);
+        }
+        else{
+            if (idConsultaStr.empty()) {
+                ui->statusConsultas->setText("Digite um número inteiro.");
+            }
+            else {
+                ui->statusConsultas->setText("Somente números inteiros.");
+            }
+        }
+    }  catch (const exception &e) {
+        throw;
+    }
 }
 
 void MainWindow::on_btnConsultaNome_clicked(){
