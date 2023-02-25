@@ -84,19 +84,20 @@ public:
         }
     }
 
-    string lerArquivo(const string &arquivo){
+    string lerArquivo(const string &arquivoPath){
+        /*Metodo generico para leitura de arquivos*/
         try {
-            string dados, linha;
+            string dadosArquivo, palavra;
             ifstream arquivoEntrada;
-            arquivoEntrada.open(arquivo, ios::in);
+            arquivoEntrada.open(arquivoPath, ios::in);
             if(!arquivoEntrada){
                 throw std::invalid_argument("Arquivo não encontrado\nConfigurar banco de dados.");
             }
-            while (getline(arquivoEntrada, linha)) {
-                dados += linha;
+            while (getline(arquivoEntrada, palavra)) {
+                dadosArquivo += palavra;
             }
             arquivoEntrada.close();
-            return dados;
+            return dadosArquivo;
         }
         catch (const exception &e) {
             throw;
