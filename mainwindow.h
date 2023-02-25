@@ -18,6 +18,7 @@ class MainWindow : public QMainWindow{
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void visualizacaoPadraTabela(int indiceDeclaracao, vector<string> argumentosConsulta);
 
 private slots:
     void on_cadastrarDados_clicked();

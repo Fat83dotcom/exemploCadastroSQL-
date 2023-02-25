@@ -68,29 +68,35 @@ void MainWindow::on_cadastrarDados_clicked(){
      }
 }
 
-void MainWindow::on_btnConsultaAll_clicked(){
+void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> argumentosConsulta){
     try {
-        QStandardItemModel *modelo = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
-        modelo->clear();
-        modelo->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
-        vector<string>argumentos, itens;
+        QStandardItemModel *tabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
+        tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
+        vector<string> itens;
         vector<vector<string>> resultado;
-        argumentos = {};
-        resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[1], argumentos);
-        for (int i = 0; i < resultado.size() ; i++ ) {
-            QList<QStandardItem *> itensLinhas = {
-                new QStandardItem(QString::fromStdString(resultado[i][0])),
-                new QStandardItem(QString::fromStdString(resultado[i][1])),
-                new QStandardItem(QString::fromStdString(resultado[i][2]))
-            };
-            modelo->appendRow(itensLinhas);
+        resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[indiceDeclaracao], argumentosConsulta);
+        if (resultado.size() > 0) {
+            for (int i = 0; i < resultado.size() ; i++ ) {
+                QList<QStandardItem *> itensLinhas = {
+                    new QStandardItem(QString::fromStdString(resultado[i][0])),
+                    new QStandardItem(QString::fromStdString(resultado[i][1])),
+                    new QStandardItem(QString::fromStdString(resultado[i][2]))
+                };
+                tabela->appendRow(itensLinhas);
+            }
+            ui->statusConsultas->setText("Consulta realizada com sucesso.");
         }
-        ui->tabelaReultadoQuery->setModel(modelo);
-        ui->tabelaReultadoQuery->show();
+        else{
+            ui->statusConsultas->setText("Consulta vazia.");
+            tabela->clear();
+            ui->tabelaReultadoQuery->update();
+        }
+
     }
     catch (const exception &e) {
         throw;
     }
+}
 
 }
 
