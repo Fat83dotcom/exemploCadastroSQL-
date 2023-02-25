@@ -40,6 +40,8 @@ private slots:
 
     void on_cadastroIdade_returnPressed();
 
+    void on_entraConsultaId_returnPressed();
+
 private:
     Ui::MainWindow *ui;
 };
