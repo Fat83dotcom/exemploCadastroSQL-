@@ -3,6 +3,8 @@
 #include "classes.h"
 #include <vector>
 #include <stdexcept>
+#include <QTableView>
+#include <QStandardItemModel>
 
 using std::exception;
 
@@ -57,13 +59,29 @@ void MainWindow::on_cadastrarDados_clicked(){
 }
 
 void MainWindow::on_btnConsultaAll_clicked(){
-    ui->listaReultadoQuery->clear();
-    vector<string> resultado, argumentos;
-    argumentos = {};
-    resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[1], argumentos);
-    for (int i = 0; i < resultado.size() ; i++ ) {
-        ui->listaReultadoQuery->addItem(QString::fromStdString(resultado[i]));
+    try {
+        QStandardItemModel *modelo = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
+        modelo->clear();
+        modelo->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
+        vector<string>argumentos, itens;
+        vector<vector<string>> resultado;
+        argumentos = {};
+        resultado = c.imprimirPreparaResult(tbT.declaracaoPrepare[1], argumentos);
+        for (int i = 0; i < resultado.size() ; i++ ) {
+            QList<QStandardItem *> itensLinhas = {
+                new QStandardItem(QString::fromStdString(resultado[i][0])),
+                new QStandardItem(QString::fromStdString(resultado[i][1])),
+                new QStandardItem(QString::fromStdString(resultado[i][2]))
+            };
+            modelo->appendRow(itensLinhas);
+        }
+        ui->tabelaReultadoQuery->setModel(modelo);
+        ui->tabelaReultadoQuery->show();
     }
+    catch (const exception &e) {
+        throw;
+    }
+
 }
 
 void MainWindow::on_btnConsultaId_clicked(){

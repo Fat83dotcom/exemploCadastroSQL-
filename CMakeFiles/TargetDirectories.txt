@@ -1,4 +1,0 @@
-/home/fernando/exemploCadastroSQL/CMakeFiles/exemploCadastroSQL.dir
-/home/fernando/exemploCadastroSQL/CMakeFiles/edit_cache.dir
-/home/fernando/exemploCadastroSQL/CMakeFiles/rebuild_cache.dir
-/home/fernando/exemploCadastroSQL/CMakeFiles/exemploCadastroSQL_autogen.dir

@@ -167,9 +167,10 @@ public:
         }
     }
 
-    vector<string> imprimirPreparaResult(const string &nomeprepara, const vector<string> &args){
+    vector<vector<string>> imprimirPreparaResult(const string &nomeprepara, const vector<string> &args){
         try{
-            vector<string> itens;
+            vector<vector<string>> itens;
+            vector<string> colunas;
             string login = this->a.lerArquivo(a.arquivoLogin);
             pqxx::connection con(login);
             this->inciarSQLTabelaTeste(&con, tbTeste);
@@ -187,8 +188,10 @@ public:
             }
             for (const auto &row: r){
                 for (const auto &field: row){
-                    itens.push_back(field.c_str());
+                    colunas.push_back(field.c_str());
                 }
+                itens.push_back(colunas);
+                colunas.clear();
             }
             w.commit();
             return itens;

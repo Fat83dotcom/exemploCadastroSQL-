@@ -5,6 +5,7 @@
 #include "classes.h"
 #include "confidential.h"
 #include <QMainWindow>
+#include <QListWidgetItem>
 using std::string;
 
 QT_BEGIN_NAMESPACE
