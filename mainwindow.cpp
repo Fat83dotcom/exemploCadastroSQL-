@@ -88,6 +88,8 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
                 };
                 tabela->appendRow(itensLinhas);
             }
+            ui->tabelaReultadoQuery->setModel(tabela);
+            ui->tabelaReultadoQuery->show();
             ui->statusConsultas->setText("Consulta realizada com sucesso.");
         }
         else{
@@ -95,6 +97,7 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
             tabela->clear();
             ui->tabelaReultadoQuery->update();
         }
+
 
     }
     catch (const exception &e) {
