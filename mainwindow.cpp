@@ -131,3 +131,17 @@ void MainWindow::on_alterarEntradaBD_clicked(){
     }
 }
 
+void MainWindow::on_btnDeletarSelecionados_clicked(){
+
+}
+
+
+void MainWindow::on_cadastroNome_returnPressed(){
+    this->on_cadastrarDados_clicked();
+}
+
+
+void MainWindow::on_cadastroIdade_returnPressed(){
+    this->on_cadastrarDados_clicked();
+}
+

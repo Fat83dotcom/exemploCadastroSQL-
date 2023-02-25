@@ -34,6 +34,12 @@ private slots:
 
     void on_alterarEntradaBD_clicked();
 
+    void on_btnDeletarSelecionados_clicked();
+
+    void on_cadastroNome_returnPressed();
+
+    void on_cadastroIdade_returnPressed();
+
 private:
     Ui::MainWindow *ui;
 };
