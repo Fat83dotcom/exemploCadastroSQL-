@@ -185,6 +185,7 @@ public:
                     argumentos.append(arg);
                 }
                 r = w.exec_prepared(nomeprepara, argumentos);
+                w.commit();
             }
             for (const auto &row: r){
                 for (const auto &field: row){
@@ -193,7 +194,6 @@ public:
                 itens.push_back(colunas);
                 colunas.clear();
             }
-            w.commit();
             return itens;
         }
         catch(const exception& e){
