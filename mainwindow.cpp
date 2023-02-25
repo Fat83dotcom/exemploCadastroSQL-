@@ -49,7 +49,15 @@ void MainWindow::on_cadastrarDados_clicked(){
             ui->ConfimacaoCadastro->setText("Cadastro Realizado com Sucesso.");
         }
         else{
-            throw std::invalid_argument("Idade deve ser um número inteiro.");
+            if(!ok && nomeStr.empty()){
+                throw std::invalid_argument("Os campos: Nome não pode estar\nvazio e Idade deve ser\num número inteiro.");
+            }
+            else if (nomeStr.empty()) {
+                throw std::invalid_argument("O campo nome não pode\nestar vazio");
+            }
+            else{
+                throw std::invalid_argument("O campo idade deve\nser um número inteiro");
+            }
         }
     }
      catch (const exception &e) {
