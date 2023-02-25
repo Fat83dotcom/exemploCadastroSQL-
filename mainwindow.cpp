@@ -51,7 +51,8 @@ void MainWindow::on_cadastrarDados_clicked(){
         }
         else{
             if(!ok && nomeStr.empty()){
-                throw std::invalid_argument("Os campos: Nome não pode estar\nvazio e Idade deve ser\num número inteiro.");
+                throw std::invalid_argument("Os campos: Nome não pode estar\nvazio e "
+                                            "Idade deve ser\num número inteiro.");
             }
             else if (nomeStr.empty()) {
                 throw std::invalid_argument("O campo nome não pode\nestar vazio");
