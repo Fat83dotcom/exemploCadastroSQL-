@@ -77,7 +77,6 @@ void MainWindow::montadorPadraoTabela(int indiceDeclaracao, vector<string> argum
         vector<string> itens;
         vector<vector<string>> resultado;
         QStandardItemModel *tabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
-
         tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
         resultado = c.imprimirPreparaResult(
                     tbT.declaracaoPrepare[indiceDeclaracao],
@@ -92,7 +91,6 @@ void MainWindow::montadorPadraoTabela(int indiceDeclaracao, vector<string> argum
                 };
                 tabela->appendRow(itensLinhas);
             }
-
             ui->tabelaReultadoQuery->setModel(tabela);
             ui->tabelaReultadoQuery->setColumnWidth(0, 100);
             ui->tabelaReultadoQuery->setColumnWidth(1, 100);
