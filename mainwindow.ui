@@ -60,39 +60,8 @@
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
           </property>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="3" column="0" colspan="2">
-            <widget class="QPushButton" name="cadastrarDados">
-             <property name="text">
-              <string>Cadastar</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Nome:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="cadastroNome">
-             <property name="inputMask">
-              <string/>
-             </property>
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Idade:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" colspan="2">
+          <layout class="QVBoxLayout" name="verticalLayout_4">
+           <item>
             <widget class="QLabel" name="label_5">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -107,18 +76,53 @@
               </size>
              </property>
              <property name="text">
-              <string>Cadastre seu nome e idade </string>
+              <string>Cadastre Nome e Idade </string>
              </property>
             </widget>
            </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="cadastroIdade">
-             <property name="clearButtonEnabled">
-              <bool>true</bool>
-             </property>
-            </widget>
+           <item>
+            <layout class="QFormLayout" name="formLayout_2">
+             <item row="0" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Nome:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="cadastroNome">
+               <property name="inputMask">
+                <string/>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>Idade:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="cadastroIdade">
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0" colspan="2">
+              <widget class="QPushButton" name="cadastrarDados">
+               <property name="text">
+                <string>Cadastar</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item row="4" column="0" colspan="2">
+           <item>
             <widget class="QLabel" name="ConfimacaoCadastro">
              <property name="text">
               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -169,12 +173,15 @@
               </widget>
              </item>
              <item row="2" column="0">
-              <widget class="QLineEdit" name="entraConsultaId">
+              <widget class="QLineEdit" name="entradaConsultaId">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
+               </property>
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -193,7 +200,11 @@
               </widget>
              </item>
              <item row="4" column="0">
-              <widget class="QLineEdit" name="entraConsultaNome"/>
+              <widget class="QLineEdit" name="entradaConsultaNome">
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="4" column="1">
               <widget class="QPushButton" name="btnConsultaNome">
@@ -210,7 +221,11 @@
               </widget>
              </item>
              <item row="6" column="0">
-              <widget class="QLineEdit" name="entraConsultaIdade"/>
+              <widget class="QLineEdit" name="entradaConsultaIdade">
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="6" column="1">
               <widget class="QPushButton" name="btnConsultaIdade">
@@ -227,7 +242,11 @@
               </widget>
              </item>
              <item row="8" column="0">
-              <widget class="QLineEdit" name="entraIdDelete"/>
+              <widget class="QLineEdit" name="entradaIdDelete">
+               <property name="clearButtonEnabled">
+                <bool>true</bool>
+               </property>
+              </widget>
              </item>
              <item row="8" column="1">
               <widget class="QPushButton" name="btnDeletar">
@@ -404,10 +423,18 @@
             </widget>
            </item>
            <item row="2" column="1">
-            <widget class="QLineEdit" name="entradaHostBD"/>
+            <widget class="QLineEdit" name="entradaHostBD">
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QLineEdit" name="entradaPortaBD"/>
+            <widget class="QLineEdit" name="entradaPortaBD">
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="1" column="0">
             <widget class="QLabel" name="label_11">
@@ -428,6 +455,9 @@
              <property name="echoMode">
               <enum>QLineEdit::PasswordEchoOnEdit</enum>
              </property>
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
             </widget>
            </item>
            <item row="3" column="0">
@@ -438,7 +468,11 @@
             </widget>
            </item>
            <item row="1" column="1">
-            <widget class="QLineEdit" name="entradaUsuarioBD"/>
+            <widget class="QLineEdit" name="entradaUsuarioBD">
+             <property name="clearButtonEnabled">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item row="6" column="0" colspan="2">
             <widget class="QLabel" name="statusTransacao">
