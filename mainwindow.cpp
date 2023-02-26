@@ -5,6 +5,9 @@
 #include <stdexcept>
 #include <QTableView>
 #include <QStandardItemModel>
+#include <QTableWidgetItem>
+#include <QModelIndex>
+#include <QMessageBox>
 
 using std::exception;
 
@@ -69,12 +72,13 @@ void MainWindow::on_cadastrarDados_clicked(){
      }
 }
 
-void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> argumentosConsulta){
+void MainWindow::montadorPadraoTabela(int indiceDeclaracao, vector<string> argumentosConsulta){
     try {
-        QStandardItemModel *tabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
-        tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
         vector<string> itens;
         vector<vector<string>> resultado;
+        QStandardItemModel *tabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
+
+        tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
         resultado = c.imprimirPreparaResult(
                     tbT.declaracaoPrepare[indiceDeclaracao],
                     argumentosConsulta,
@@ -88,7 +92,11 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
                 };
                 tabela->appendRow(itensLinhas);
             }
+
             ui->tabelaReultadoQuery->setModel(tabela);
+            ui->tabelaReultadoQuery->setColumnWidth(0, 100);
+            ui->tabelaReultadoQuery->setColumnWidth(1, 100);
+            ui->tabelaReultadoQuery->setColumnWidth(2, 100);
             ui->tabelaReultadoQuery->show();
             ui->statusConsultas->setText("Consulta realizada com sucesso.");
         }
@@ -97,8 +105,6 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
             tabela->clear();
             ui->tabelaReultadoQuery->update();
         }
-
-
     }
     catch (const exception &e) {
         throw;
@@ -107,20 +113,20 @@ void MainWindow::visualizacaoPadraTabela(int indiceDeclaracao, vector<string> ar
 
 void MainWindow::on_btnConsultaAll_clicked(){
     vector<string> argumentosConsulta = {};
-    this->visualizacaoPadraTabela(1, argumentosConsulta);
+    this->montadorPadraoTabela(1, argumentosConsulta);
 }
 
 void MainWindow::on_btnConsultaId_clicked(){
     try {
         bool ok;
-        QString idConsulta = ui->entraConsultaId->text();
+        QString idConsulta = ui->entradaConsultaId->text();
         string idConsultaStr = idConsulta.toStdString();
         idConsulta.toInt(&ok);
-        ui->entraConsultaId->setFocus();
-        ui->entraConsultaId->clear();
+        ui->entradaConsultaId->setFocus();
+        ui->entradaConsultaId->clear();
         if (ok && !idConsultaStr.empty()) {
             vector<string> argumentosConsulta = {idConsultaStr};
-            this->visualizacaoPadraTabela(2, argumentosConsulta);
+            this->montadorPadraoTabela(2, argumentosConsulta);
         }
         else{
             if (idConsultaStr.empty()) {
@@ -130,20 +136,87 @@ void MainWindow::on_btnConsultaId_clicked(){
                 ui->statusConsultas->setText("Somente números inteiros.");
             }
         }
-    }  catch (const exception &e) {
+    }
+    catch (const exception &e) {
         throw;
     }
 }
 
 void MainWindow::on_btnConsultaNome_clicked(){
-
+    try {
+        QString nomeConsulta = ui->entradaConsultaNome->text();
+        string nomeConsultaStr = nomeConsulta.toStdString();
+        ui->entradaConsultaNome->setFocus();
+        ui->entradaConsultaNome->clear();
+        if (!nomeConsultaStr.empty()) {
+            vector<string> argumentosConsulta = {nomeConsultaStr};
+            this->montadorPadraoTabela(3, argumentosConsulta);
+        }
+        else{
+            ui->statusConsultas->setText("Digite o nome a ser procurado.");
+        }
+    }
+    catch (const exception &e) {
+        throw;
+    }
 }
 
 void MainWindow::on_btnConsultaIdade_clicked(){
-
+    try {
+        bool ok;
+        QString idConsulta = ui->entradaConsultaIdade->text();
+        string idConsultaStr = idConsulta.toStdString();
+        idConsulta.toInt(&ok);
+        ui->entradaConsultaIdade->setFocus();
+        ui->entradaConsultaIdade->clear();
+        if (ok && !idConsultaStr.empty()) {
+            vector<string> argumentosConsulta = {idConsultaStr};
+            this->montadorPadraoTabela(4, argumentosConsulta);
+        }
+        else{
+            if (idConsultaStr.empty()) {
+                ui->statusConsultas->setText("Digite um número inteiro.");
+            }
+            else {
+                ui->statusConsultas->setText("Somente números inteiros.");
+            }
+        }
+    }
+    catch (const exception &e) {
+        throw;
+    }
 }
 
 void MainWindow::on_btnDeletar_clicked(){
+    try {
+        QMessageBox::StandardButton confirmacao = QMessageBox::question(this,
+                              "Deletar Por Id", "Esta ação é irreversível, deseja continuar?",
+                              QMessageBox::Yes|QMessageBox::No);
+        if (confirmacao == QMessageBox::Yes) {
+            bool ok;
+            QString idDelete = ui->entradaIdDelete->text();
+            ui->entradaIdDelete->setFocus();
+            ui->entradaIdDelete->clear();
+            idDelete.toInt(&ok);
+            if (ok){
+                vector<string> idDeletados;
+                idDeletados.push_back(idDelete.toStdString());
+                c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[5], idDeletados, 5);
+                this->on_btnConsultaAll_clicked();
+            }
+            else {
+                ui->statusConsultas->setText("Somente números inteiros.");
+            }
+        }
+        else {
+            ui->entradaIdDelete->setFocus();
+            ui->entradaIdDelete->clear();
+            ui->statusConsultas->setText("Ação cancelada !");
+        }
+    }
+    catch (const exception &e) {
+        throw ;
+    }
 
 }
 
@@ -179,6 +252,49 @@ void MainWindow::on_alterarEntradaBD_clicked(){
 }
 
 void MainWindow::on_btnDeletarSelecionados_clicked(){
+    try {
+        QMessageBox::StandardButton confirmacao = QMessageBox::question(this,
+                              "Deletar Selecionados", "Esta ação é irreversível, deseja continuar?",
+                              QMessageBox::Yes|QMessageBox::No);
+        if (confirmacao == QMessageBox::Yes) {
+            vector<string> idsSelecionados;
+            QStandardItemModel* tabela = qobject_cast<QStandardItemModel*>(ui->tabelaReultadoQuery->model());
+            ui->tabelaReultadoQuery->setModel(tabela);
+            QItemSelectionModel *tabelaSelecionada = ui->tabelaReultadoQuery->selectionModel();
+            QModelIndexList linhasSelecionadas = tabelaSelecionada->selectedRows();
+            foreach (QModelIndex i, linhasSelecionadas) {
+                QStandardItem* itemSelecionado = tabela->itemFromIndex(i);
+                QString id = itemSelecionado->text();
+                string idStr = id.toStdString();
+                idsSelecionados.push_back(idStr);
+            }
+            for (int i = 0; i < idsSelecionados.size(); i++) {
+                vector<string> buffer;
+                buffer.push_back(idsSelecionados[i]);
+                c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[5], buffer, 5);
+            }
+            this->on_btnConsultaAll_clicked();
+            int qtdLInhasselecionadas = linhasSelecionadas.size();
+            if (qtdLInhasselecionadas > 0) {
+                ui->statusConsultas->setText(QString("Os registros foram deletados com\n sucesso.\n"
+                                                  "Total de registros deletados: %1"
+                                                     ).arg(qtdLInhasselecionadas));
+            }
+            else {
+                ui->statusConsultas->setText(QString("Nenhum item foi selecionado.\n"
+                                                     "Total de registros deletados: %1"
+                                                        ).arg(qtdLInhasselecionadas));
+            }
+        }
+        else{
+            ui->entradaIdDelete->setFocus();
+            ui->entradaIdDelete->clear();
+            ui->statusConsultas->setText("Ação cancelada !");
+        }
+
+    }  catch (const exception &e) {
+        throw;
+    }
 
 }
 
@@ -190,7 +306,18 @@ void MainWindow::on_cadastroIdade_returnPressed(){
     this->on_cadastrarDados_clicked();
 }
 
-void MainWindow::on_entraConsultaId_returnPressed(){
+void MainWindow::on_entradaConsultaId_returnPressed(){
     this->on_btnConsultaId_clicked();
 }
 
+void MainWindow::on_entradaConsultaNome_returnPressed(){
+    this->on_btnConsultaNome_clicked();
+}
+
+void MainWindow::on_entradaConsultaIdade_returnPressed(){
+    this->on_btnConsultaIdade_clicked();
+}
+
+void MainWindow::on_entradaIdDelete_returnPressed(){
+    this->on_btnDeletar_clicked();
+}
