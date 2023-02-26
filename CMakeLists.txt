@@ -46,9 +46,16 @@ else()
     endif()
 endif()
 
+find_package(PostgreSQL REQUIRED)
+include_directories(${PostgreSQL_INCLUDE_DIRS})
+link_directories(${PostgreSQL_LIBRARY_DIRS})
+
 find_package(PQXX REQUIRED)
 target_link_libraries(exemploCadastroSQL PUBLIC ${PQXX_LIBRARIES})
 target_include_directories(exemploCadastroSQL PUBLIC ${PQXX_INCLUDE_DIRS})
+
+add_library(pq SHARED IMPORTED)
+set_target_properties(pq PROPERTIES IMPORTED_LOCATION ${PostgreSQL_LIBRARIES})
 
 target_link_libraries(exemploCadastroSQL PRIVATE Qt${QT_VERSION_MAJOR}::Widgets)
 target_compile_features(exemploCadastroSQL PUBLIC cxx_std_17)
