@@ -126,12 +126,6 @@ private:
     TabelaTeste tbTeste;
     ArquivoBD a;
 
-public:
-    ConectBD(){}
-
-    void executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
-                             const string &declaracao, vector<string> v, int indicePreparacao);
-
     void inciarSQLTabelaTeste(pqxx::connection *c, TabelaTeste tbTeste, int indiceDeclaracao){
         /*Carrega a sentença que será usada no pqxx:prepare da tabela teste*/
         try {
@@ -172,6 +166,14 @@ public:
             throw ;
         }
     }
+
+
+
+public:
+    ConectBD(){}
+
+    void executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
+                             const string &declaracao, vector<string> v, int indicePreparacao);
 
     vector<vector<string>> imprimirPreparaResult(const string &nomeprepara,
                                                  const vector<string> &args,
