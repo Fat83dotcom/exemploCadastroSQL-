@@ -28,6 +28,7 @@ typedef struct TabelaTestes{
     const string sqltSelectTTestNome = "SELECT * FROM teste WHERE nome=$1";
     const string sqltSelectTTestIdade = "SELECT * FROM teste WHERE idade=$1";
     const string sqlDeleteTTestId = "DELETE FROM teste WHERE codigo=$1";
+    const string sqlSelectTTesteLike = "SELECT * FROM teste WHERE nome LIKE $1";
     vector<string> campos;
 
     vector<string> comandosSQL = {
@@ -36,7 +37,8 @@ typedef struct TabelaTestes{
         this->sqlSelectTTestId,
         this->sqltSelectTTestNome,
         this->sqltSelectTTestIdade,
-        this->sqlDeleteTTestId
+        this->sqlDeleteTTestId,
+        this->sqlSelectTTesteLike
     };
     vector<string> declaracaoPrepare = {
         "insertTeste",
@@ -44,7 +46,8 @@ typedef struct TabelaTestes{
         "selectId",
         "selectNome",
         "selectIdade",
-        "deleteId"
+        "deleteId",
+        "selectPChave"
     };
 }TabelaTeste;
 
