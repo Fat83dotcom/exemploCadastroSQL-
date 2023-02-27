@@ -49,6 +49,10 @@ private slots:
 
     void on_entradaIdDelete_returnPressed();
 
+    void on_btnConsultaPalavraChave_clicked();
+
+    void on_entradaConsultaPChave_returnPressed();
+
 private:
     Ui::MainWindow *ui;
 };

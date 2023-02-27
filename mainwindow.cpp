@@ -296,6 +296,25 @@ void MainWindow::on_btnDeletarSelecionados_clicked(){
 
 }
 
+void MainWindow::on_btnConsultaPalavraChave_clicked(){
+    try {
+        string pChave = ui->entradaConsultaPChave->text().toStdString();
+        ui->entradaConsultaPChave->setFocus();
+        ui->entradaConsultaPChave->clear();
+        if (!pChave.empty()) {
+            pChave = "%" + pChave + "%";
+            vector<string> container = {pChave};
+            this->montadorPadraoTabela(6, container);
+        }
+        else {
+            ui->statusConsultas->setText("Digite um nome ou parte dele.");
+        }
+    }
+    catch (const exception &e) {
+        throw;
+    }
+}
+
 void MainWindow::on_cadastroNome_returnPressed(){
     this->on_cadastrarDados_clicked();
 }
@@ -319,3 +338,8 @@ void MainWindow::on_entradaConsultaIdade_returnPressed(){
 void MainWindow::on_entradaIdDelete_returnPressed(){
     this->on_btnDeletar_clicked();
 }
+
+void MainWindow::on_entradaConsultaPChave_returnPressed(){
+    this->on_btnConsultaPalavraChave_clicked();
+}
+
