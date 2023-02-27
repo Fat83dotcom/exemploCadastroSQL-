@@ -300,6 +300,7 @@ void MainWindow::on_btnConsultaPalavraChave_clicked(){
         ui->entradaConsultaPChave->setFocus();
         ui->entradaConsultaPChave->clear();
         if (!pChave.empty()) {
+            // Os coringas do operador Like devem ser colocado dentro das variaveis, não no comando SQL
             pChave = "%" + pChave + "%";
             vector<string> container = {pChave};
             this->montadorPadraoTabela(6, container);
