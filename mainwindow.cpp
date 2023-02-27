@@ -40,12 +40,11 @@ void ConectBD::executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
 void MainWindow::on_cadastrarDados_clicked(){
     try {
         bool ok;
-        QString nome = ui->cadastroNome->text();
+        string nomeStr = ui->cadastroNome->text().toStdString();
         QString idade = ui->cadastroIdade->text();
-        idade.toInt(&ok);
-        string nomeStr = nome.toStdString();
+        idade.toInt(&ok);  
         if(ok && !nomeStr.empty()){
-            vector<string> campos = {nome.toStdString(), idade.toStdString()};
+            vector<string> campos = {nomeStr, idade.toStdString()};
             c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos, 0);
             ui->cadastroNome->clear();
             ui->cadastroNome->setFocus();
@@ -142,8 +141,7 @@ void MainWindow::on_btnConsultaId_clicked(){
 
 void MainWindow::on_btnConsultaNome_clicked(){
     try {
-        QString nomeConsulta = ui->entradaConsultaNome->text();
-        string nomeConsultaStr = nomeConsulta.toStdString();
+        string nomeConsultaStr = ui->entradaConsultaNome->text().toStdString();
         ui->entradaConsultaNome->setFocus();
         ui->entradaConsultaNome->clear();
         if (!nomeConsultaStr.empty()) {
