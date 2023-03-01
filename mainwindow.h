@@ -59,5 +59,19 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
+
+    // Funções internas dos métodos on_clicked()
+    void preparaProximaEntrada(QLineEdit *caixaText);
+    void limpaCaixaEntrada(QLineEdit *caixaEntrada);
+    void atualizarLabelStatus(QLabel *labelStatus, QString mensagem);
+    string converteEntradaParaString(QLineEdit *caixaEntrda);
+    string verificaEntradaInteiro(QLineEdit *caixaEntrda, bool *verificadorInteiro);
+
+    // Funções internas do método void montadorPadraoTabela(int indiceDeclaracao, vector<string> argumentosConsulta)
+    void inserirDadosLinhas(QStandardItemModel *tabela, vector<vector<string>> resultado, int i);
+    void mostrarTabela(QStandardItemModel *modeloTabela,
+                       QTableView *tabela,
+                       const QStringList nomeColunas);
+    void apagarTabela(QTableView *tabela);
 };
 #endif // MAINWINDOW_H
