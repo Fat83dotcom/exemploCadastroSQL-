@@ -217,24 +217,20 @@ void MainWindow::on_btnDeletar_clicked(){
                               QMessageBox::Yes|QMessageBox::No);
         if (confirmacao == QMessageBox::Yes) {
             bool ok;
-            QString idDelete = ui->entradaIdDelete->text();
-            ui->entradaIdDelete->setFocus();
-            ui->entradaIdDelete->clear();
-            idDelete.toInt(&ok);
+            string idDeleteStr = this->verificaEntradaInteiro(ui->entradaIdDelete, &ok);
+            this->preparaProximaEntrada(ui->entradaIdDelete);
             if (ok){
                 vector<string> idDeletados;
-                idDeletados.push_back(idDelete.toStdString());
+                idDeletados.push_back(idDeleteStr);
                 c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[5], idDeletados, 5);
                 this->on_btnConsultaAll_clicked();
             }
             else {
-                ui->statusConsultas->setText("Somente números inteiros.");
+                this->atualizarLabelStatus(ui->statusConsultas, QString("Somente números inteiros."));
             }
         }
         else {
-            ui->entradaIdDelete->setFocus();
-            ui->entradaIdDelete->clear();
-            ui->statusConsultas->setText("Ação cancelada !");
+            this->atualizarLabelStatus(ui->statusConsultas, QString("Ação cancelada !"));
         }
     }
     catch (const exception &e) {
