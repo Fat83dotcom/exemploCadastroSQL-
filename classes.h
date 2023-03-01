@@ -175,7 +175,7 @@ public:
     void executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
                              const string &declaracao, vector<string> v, int indicePreparacao);
 
-    vector<vector<string>> imprimirPreparaResult(const string &nomeprepara,
+    vector<vector<string>> resultadoConsultaPrepara(const string &nomeprepara,
                                                  const vector<string> &args,
                                                  int indiceDeclaracao){
         try{
