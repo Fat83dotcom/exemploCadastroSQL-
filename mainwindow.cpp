@@ -172,15 +172,14 @@ void MainWindow::on_btnConsultaId_clicked(){
 
 void MainWindow::on_btnConsultaNome_clicked(){
     try {
-        string nomeConsultaStr = ui->entradaConsultaNome->text().toStdString();
-        ui->entradaConsultaNome->setFocus();
-        ui->entradaConsultaNome->clear();
+        string nomeConsultaStr = this->converteEntradaParaString(ui->entradaConsultaNome);
+        this->preparaProximaEntrada(ui->entradaConsultaNome);
         if (!nomeConsultaStr.empty()) {
             vector<string> argumentosConsulta = {nomeConsultaStr};
-            this->montadorPadraoTabela(3, argumentosConsulta);
+            this->montadorTabelaPadrao(3, argumentosConsulta);
         }
         else{
-            ui->statusConsultas->setText("Digite o nome a ser procurado.");
+            this->atualizarLabelStatus(ui->statusConsultas, QString ("Digite o nome a ser procurado."));
         }
     }
     catch (const exception &e) {
