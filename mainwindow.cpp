@@ -276,12 +276,12 @@ void MainWindow::on_btnDeletarSelecionados_clicked(){
                               QMessageBox::Yes|QMessageBox::No);
         if (confirmacao == QMessageBox::Yes) {
             vector<string> idsSelecionados;
-            QStandardItemModel* tabela = qobject_cast<QStandardItemModel*>(ui->tabelaReultadoQuery->model());
-            ui->tabelaReultadoQuery->setModel(tabela);
+            QStandardItemModel* modeloTabela = qobject_cast<QStandardItemModel*>(ui->tabelaReultadoQuery->model());
+            ui->tabelaReultadoQuery->setModel(modeloTabela);
             QItemSelectionModel *tabelaSelecionada = ui->tabelaReultadoQuery->selectionModel();
             QModelIndexList linhasSelecionadas = tabelaSelecionada->selectedRows();
             foreach (QModelIndex i, linhasSelecionadas) {
-                QStandardItem* itemSelecionado = tabela->itemFromIndex(i);
+                QStandardItem* itemSelecionado = modeloTabela->itemFromIndex(i);
                 QString id = itemSelecionado->text();
                 string idStr = id.toStdString();
                 idsSelecionados.push_back(idStr);
