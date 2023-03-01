@@ -144,7 +144,7 @@ void MainWindow::montadorTabelaPadrao(int indiceDeclaracao, vector<string> argum
 
 void MainWindow::on_btnConsultaAll_clicked(){
     vector<string> argumentosConsulta = {};
-    this->montadorPadraoTabela(1, argumentosConsulta);
+    this->montadorTabelaPadrao(1, argumentosConsulta);
 }
 
 void MainWindow::on_btnConsultaId_clicked(){
