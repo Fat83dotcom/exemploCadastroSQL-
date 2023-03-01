@@ -119,34 +119,22 @@ void MainWindow::on_cadastrarDados_clicked(){
 
 void MainWindow::montadorTabelaPadrao(int indiceDeclaracao, vector<string> argumentosConsulta){
     try {
-        vector<string> itens;
-        vector<vector<string>> resultado;
-        QStandardItemModel *tabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
-        tabela->setHorizontalHeaderLabels({"Id", "Nome", "Idade"});
-        resultado = c.imprimirPreparaResult(
+        QStandardItemModel *modeloTabela = new QStandardItemModel(0, 3, ui->tabelaReultadoQuery);
+        vector<vector<string>> resultadoConsulta;
+        resultadoConsulta = c.resultadoConsultaPrepara(
                     tbT.declaracaoPrepare[indiceDeclaracao],
                     argumentosConsulta,
                     indiceDeclaracao);
-        if (resultado.size() > 0) {
-            for (int i = 0; i < resultado.size() ; i++ ) {
-                QList<QStandardItem *> itensLinhas = {
-                    new QStandardItem(QString::fromStdString(resultado[i][0])),
-                    new QStandardItem(QString::fromStdString(resultado[i][1])),
-                    new QStandardItem(QString::fromStdString(resultado[i][2]))
-                };
-                tabela->appendRow(itensLinhas);
+        if (resultadoConsulta.size() > 0) {
+            for (int i = 0; i < resultadoConsulta.size() ; i++ ) {
+                this->inserirDadosLinhas(modeloTabela, resultadoConsulta, i);
             }
-            ui->tabelaReultadoQuery->setModel(tabela);
-            ui->tabelaReultadoQuery->setColumnWidth(0, 100);
-            ui->tabelaReultadoQuery->setColumnWidth(1, 100);
-            ui->tabelaReultadoQuery->setColumnWidth(2, 100);
-            ui->tabelaReultadoQuery->show();
-            ui->statusConsultas->setText("Consulta realizada com sucesso.");
+            this->mostrarTabela(modeloTabela, ui->tabelaReultadoQuery, {"Id", "Nome", "Idade"});
+            this->atualizarLabelStatus(ui->statusConsultas, QString("Consulta realizada com sucesso."));
         }
         else{
-            ui->statusConsultas->setText("Consulta vazia.");
-            tabela->clear();
-            ui->tabelaReultadoQuery->update();
+            this->atualizarLabelStatus(ui->statusConsultas, QString("Consulta vazia."));
+            this->apagarTabela(ui->tabelaReultadoQuery);
         }
     }
     catch (const exception &e) {
