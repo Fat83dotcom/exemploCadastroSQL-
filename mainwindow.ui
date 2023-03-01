@@ -533,10 +533,19 @@
     <property name="title">
      <string>Cadastro Simples</string>
     </property>
+    <addaction name="actionCadastro"/>
    </widget>
    <addaction name="menuCadastro_Simples"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCadastro">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Cadastro</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
