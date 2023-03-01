@@ -305,30 +305,27 @@ void MainWindow::on_btnDeletarSelecionados_clicked(){
             }
         }
         else{
-            ui->entradaIdDelete->setFocus();
-            ui->entradaIdDelete->clear();
-            ui->statusConsultas->setText("Ação cancelada !");
+            this->atualizarLabelStatus(ui->statusConsultas, QString("Ação cancelada !"));
         }
 
-    }  catch (const exception &e) {
+    }
+    catch (const exception &e) {
         throw;
     }
-
 }
 
 void MainWindow::on_btnConsultaPalavraChave_clicked(){
     try {
-        string pChave = ui->entradaConsultaPChave->text().toStdString();
-        ui->entradaConsultaPChave->setFocus();
-        ui->entradaConsultaPChave->clear();
+        string pChave = this->converteEntradaParaString(ui->entradaConsultaPChave);
+        this->preparaProximaEntrada(ui->entradaConsultaPChave);
         if (!pChave.empty()) {
             // Os coringas do operador Like devem ser colocado dentro das variaveis, não no comando SQL
             pChave = "%" + pChave + "%";
             vector<string> container = {pChave};
-            this->montadorPadraoTabela(6, container);
+            this->montadorTabelaPadrao(6, container);
         }
         else {
-            ui->statusConsultas->setText("Digite um nome ou parte dele.");
+            this->atualizarLabelStatus(ui->statusConsultas, QString("Digite um nome ou parte dele."));
         }
     }
     catch (const exception &e) {
