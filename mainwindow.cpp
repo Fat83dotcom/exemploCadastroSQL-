@@ -112,7 +112,7 @@ void MainWindow::on_cadastrarDados_clicked(){
     }
      catch (const exception &e) {
         QString erro = QString::fromStdString(e.what());
-        ui->ConfimacaoCadastro->setText(erro);
+        this->atualizarLabelStatus(ui->ConfimacaoCadastro, erro);
         std::cout << erro.toStdString() << std::endl;
      }
 }
