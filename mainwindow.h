@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow{
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void montadorPadraoTabela(int indiceDeclaracao, vector<string> argumentosConsulta);
+    void montadorTabelaPadrao(int indiceDeclaracao, vector<string> argumentosConsulta);
 
 private slots:
     void on_cadastrarDados_clicked();

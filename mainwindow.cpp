@@ -39,19 +39,63 @@ void ConectBD::executarTabelaTeste(ConectBD *c, TabelaTeste *tbT,
      }
 }
 
+void MainWindow::preparaProximaEntrada(QLineEdit *caixaText){
+    caixaText->clear();
+    caixaText->setFocus();
+}
+
+string MainWindow::converteEntradaParaString(QLineEdit *caixaEntrda){
+    string entradaDados = caixaEntrda->text().toStdString();
+    return entradaDados;
+}
+
+string MainWindow::verificaEntradaInteiro(QLineEdit *caixaEntrda, bool *verificadorInteiro){
+    QString dados = caixaEntrda->text();
+    dados.toInt(verificadorInteiro);
+    string caixaEntradaStr = dados.toStdString();
+    return caixaEntradaStr;
+}
+
+void MainWindow::limpaCaixaEntrada(QLineEdit *caixaEntrada){
+    caixaEntrada->clear();
+}
+
+void MainWindow::atualizarLabelStatus(QLabel *labelStatus, QString mensagem){
+    labelStatus->setText(mensagem);
+}
+
+void MainWindow::apagarTabela(QTableView *tabela){
+    tabela->setModel(NULL);
+}
+
+void MainWindow::inserirDadosLinhas(QStandardItemModel *tabela, vector<vector<string>> resultadoConsulta, int i){
+    QList<QStandardItem *> linhasInseridas = {
+        new QStandardItem(QString::fromStdString(resultadoConsulta[i][0])),
+        new QStandardItem(QString::fromStdString(resultadoConsulta[i][1])),
+        new QStandardItem(QString::fromStdString(resultadoConsulta[i][2]))
+    };
+        tabela->appendRow(linhasInseridas);
+}
+
+void MainWindow::mostrarTabela(QStandardItemModel *modeloTabela,
+                               QTableView *tabela,
+                               const QStringList nomeColunas){
+    modeloTabela->setHorizontalHeaderLabels(nomeColunas);
+    tabela->setModel(modeloTabela);
+    tabela->show();
+}
+
 void MainWindow::on_cadastrarDados_clicked(){
     try {
         bool ok;
-        string nomeStr = ui->cadastroNome->text().toStdString();
-        QString idade = ui->cadastroIdade->text();
-        idade.toInt(&ok);  
+        string nomeStr = this->converteEntradaParaString(ui->cadastroNome);
+        string idadeStr = this->verificaEntradaInteiro(ui->cadastroIdade, &ok);
         if(ok && !nomeStr.empty()){
-            vector<string> campos = {nomeStr, idade.toStdString()};
+            vector<string> campos = {nomeStr, idadeStr};
             c.executarTabelaTeste(&c, &tbT, tbT.declaracaoPrepare[0], campos, 0);
-            ui->cadastroNome->clear();
-            ui->cadastroNome->setFocus();
-            ui->cadastroIdade->clear();
-            ui->ConfimacaoCadastro->setText("Cadastro Realizado com Sucesso.");
+            this->preparaProximaEntrada(ui->cadastroNome);
+            this->limpaCaixaEntrada(ui->cadastroIdade);
+            this->atualizarLabelStatus(ui->ConfimacaoCadastro, QString("Cadastro Realizado com Sucesso."));
         }
         else{
             if(!ok && nomeStr.empty()){
@@ -73,7 +117,7 @@ void MainWindow::on_cadastrarDados_clicked(){
      }
 }
 
-void MainWindow::montadorPadraoTabela(int indiceDeclaracao, vector<string> argumentosConsulta){
+void MainWindow::montadorTabelaPadrao(int indiceDeclaracao, vector<string> argumentosConsulta){
     try {
         vector<string> itens;
         vector<vector<string>> resultado;
