@@ -150,21 +150,18 @@ void MainWindow::on_btnConsultaAll_clicked(){
 void MainWindow::on_btnConsultaId_clicked(){
     try {
         bool ok;
-        QString idConsulta = ui->entradaConsultaId->text();
-        string idConsultaStr = idConsulta.toStdString();
-        idConsulta.toInt(&ok);
-        ui->entradaConsultaId->setFocus();
-        ui->entradaConsultaId->clear();
+        string idConsultaStr = this->verificaEntradaInteiro(ui->entradaConsultaId, &ok);
+        this->preparaProximaEntrada(ui->entradaConsultaId);
         if (ok && !idConsultaStr.empty()) {
             vector<string> argumentosConsulta = {idConsultaStr};
-            this->montadorPadraoTabela(2, argumentosConsulta);
+            this->montadorTabelaPadrao(2, argumentosConsulta);
         }
         else{
             if (idConsultaStr.empty()) {
-                ui->statusConsultas->setText("Digite um número inteiro.");
+                this->atualizarLabelStatus(ui->statusConsultas, QString("Digite um número inteiro."));
             }
             else {
-                ui->statusConsultas->setText("Somente números inteiros.");
+                this->atualizarLabelStatus(ui->statusConsultas, QString("Somente números inteiros."));
             }
         }
     }
