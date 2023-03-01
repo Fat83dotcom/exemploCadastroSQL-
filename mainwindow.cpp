@@ -236,33 +236,32 @@ void MainWindow::on_btnDeletar_clicked(){
     catch (const exception &e) {
         throw ;
     }
-
 }
 
 void MainWindow::on_alterarEntradaBD_clicked(){
     try {
         ArquivoBD a;
         string usuarioBD, hostBD, senhaBD, portaBD;
-        usuarioBD = ui->entradaUsuarioBD->text().toStdString();
-        hostBD = ui->entradaHostBD->text().toStdString();
-        senhaBD = ui->entradaSenhaBD->text().toStdString();
-        portaBD = ui->entradaPortaBD->text().toStdString();
-        if(usuarioBD.empty() || hostBD.empty() || senhaBD.empty() || portaBD.empty()){
-            ui->statusTransacao->setText("Só é possivel definir com as 4 entradas preenchidas.");
-            ui->entradaHostBD->clear();
-            ui->entradaUsuarioBD->clear();
-            ui->entradaSenhaBD->clear();
-            ui->entradaPortaBD->clear();
+        usuarioBD = this->converteEntradaParaString(ui->entradaUsuarioBD);
+        hostBD = this->converteEntradaParaString(ui->entradaHostBD);
+        senhaBD = this->converteEntradaParaString(ui->entradaSenhaBD);
+        portaBD = this->converteEntradaParaString(ui->entradaPortaBD);
+        if(usuarioBD.empty() || hostBD.empty() || senhaBD.empty() || portaBD.empty()){        
+            this->preparaProximaEntrada(ui->entradaUsuarioBD);
+            this->limpaCaixaEntrada(ui->entradaHostBD);
+            this->limpaCaixaEntrada(ui->entradaSenhaBD);
+            this->limpaCaixaEntrada(ui->entradaPortaBD);
+            this->atualizarLabelStatus(ui->statusTransacao, QString("Só é possivel definir com as 4 entradas preenchidas."));
         }
         else{
             string login;
             login = a.montarEntradaBD(usuarioBD, hostBD, senhaBD, portaBD);
             a.gravarArquivo(a.arquivoLogin, login);
-            ui->entradaHostBD->clear();
-            ui->entradaUsuarioBD->clear();
-            ui->entradaSenhaBD->clear();
-            ui->entradaPortaBD->clear();
-            ui->statusTransacao->setText("Dados salvos com sucesso!");
+            this->preparaProximaEntrada(ui->entradaUsuarioBD);
+            this->limpaCaixaEntrada(ui->entradaHostBD);
+            this->limpaCaixaEntrada(ui->entradaSenhaBD);
+            this->limpaCaixaEntrada(ui->entradaPortaBD);
+            this->atualizarLabelStatus(ui->statusTransacao, QString("Dados salvos com sucesso!"));
         }
     }
     catch (const exception &e) {
