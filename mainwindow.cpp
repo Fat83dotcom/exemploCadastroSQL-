@@ -8,6 +8,8 @@
 #include <QTableWidgetItem>
 #include <QModelIndex>
 #include <QMessageBox>
+#include <QLabel>
+#include<QStandardItem>
 
 using std::exception;
 

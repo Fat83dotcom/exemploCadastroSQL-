@@ -6,6 +6,10 @@
 #include "confidential.h"
 #include <QMainWindow>
 #include <QListWidgetItem>
+#include <QLabel>
+#include <QStandardItem>
+#include <QStandardItemModel>
+#include <QTableView>
 using std::string;
 
 QT_BEGIN_NAMESPACE
